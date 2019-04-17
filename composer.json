@@ -1,0 +1,25 @@
+{
+    "name": "wodrow/yii2wtools",
+    "description": "tools and rewrite",
+    "keywords": [
+        "tools",
+        "helps"
+    ],
+    "type": "yii2-extension",
+    "require": {
+        "php": ">=5.4"
+    },
+    "authors": [
+        {
+            "name": "wodrow",
+            "email": "wodrow451611cv@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "wodrow\\yii2wwwangeditor\\": "src/"
+        }
+    }
+}
