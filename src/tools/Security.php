@@ -113,4 +113,94 @@ class Security
         else
             return FALSE;
     }
+
+    /**
+     * RSA签名
+     * @param $data 待签名数据(按照文档说明拼成的字符串)
+     * @param $priKey商户私钥
+     * return 签名结果
+     */
+    public static function rsaSign($data, $priKey)
+    {
+        $res = openssl_get_privatekey($priKey);
+        openssl_sign($data, $sign, $res);
+        openssl_free_key($res);
+        $sign = base64_encode($sign);
+        return $sign;
+    }
+
+    /**
+     * RSA验签
+     * @param mixed $data 待签名数据(如果是xml返回则数据为<plain>标签的值,包含<plain>标签，如果为form(key-value，一般指异步返回类的)返回,则需要按照文档中进行key的顺序进行，value拼接)
+     * @param $ali_public_key_path 富友的公钥文件路径
+     * @param $sign 要校对的的签名结果
+     * return 验证结果
+     */
+    public static function rsaVerify($data, $pubKey, $sign, $ali_public_key_path = null)
+    {
+        if ($ali_public_key_path) $pubKey = file_get_contents($ali_public_key_path);
+        $res = openssl_get_publickey($pubKey);
+        $result = (bool)openssl_verify($data, base64_decode($sign), $res);
+        openssl_free_key($res);
+        return $result;
+    }
+
+    /**
+     * RSA加密
+     * @param $content
+     * @param $public_key
+     * return 加密后内容
+     */
+    public static function rsaEncrypt($content, $public_key){
+        $pubKey = $public_key;
+        $res = openssl_get_publickey($pubKey);
+        //把需要加密的内容，按128位拆开解密
+        $result  = '';
+        for($i = 0; $i < strlen($content)/128; $i++  ) {
+            $data = substr($content, $i * 128, 128);
+            openssl_public_encrypt ($data, $encrypt, $res);
+            $result .= $encrypt;
+        }
+        $result = base64_encode($result);
+        openssl_free_key($res);
+        return $result;
+    }
+
+    /**
+     * RSA解密
+     * @param $content 需要解密的内容，密文
+     * @param $private_key 商户私钥文件路径
+     * return 解密后内容，明文
+     */
+    public static function rsaDecrypt($content, $private_key) {
+        $priKey = $private_key;
+        $res = openssl_get_privatekey($priKey);
+        //用base64将内容还原成二进制
+        $content = base64_decode($content);
+        //把需要解密的内容，按128位拆开解密
+        $result  = '';
+        for($i = 0; $i < strlen($content)/128; $i++  ) {
+            $data = substr($content, $i * 128, 128);
+            openssl_private_decrypt($data, $decrypt, $res);
+            $result .= $decrypt;
+        }
+        openssl_free_key($res);
+        return $result;
+    }
+
+    /**
+     * 验签  验证签名  基于sha1withRSA
+     * @param $data 签名前的原字符串
+     * @param $signature 签名串
+     * @return bool
+     * @link www.zh30.com
+     */
+    public static function verify($data, $signature)
+    {
+        $certs = array();
+        openssl_pkcs12_read(file_get_contents("你的.pfx文件路径"), $certs, "password");
+        if (!$certs) return;
+        $result = (bool)openssl_verify($data, $signature, $certs['cert']); //openssl_verify验签成功返回1，失败0，错误返回-1
+        return $result;
+    }
 }
