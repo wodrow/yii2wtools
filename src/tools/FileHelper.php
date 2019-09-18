@@ -292,4 +292,44 @@ class FileHelper extends \yii\helpers\FileHelper
         }
         return $result;
     }
+
+    /**
+     * 备份文件
+     * @param string $from_conf
+     * @param string $to_conf
+     * @param string $log_name_pre
+     */
+    public static function fileSysMove($from_conf, $to_conf, $log_name_pre = "failed_move_files_")
+    {
+        /**
+         * @var Filesystem $master
+         * @var Filesystem $slave
+         */
+        $master = \Yii::$app->$from_conf;
+        $slave = \Yii::$app->$to_conf;
+        $slc = $master->listContents('', true);
+        foreach ($slc as $k => $v){
+            $type = $v['type'];
+            $path = $v['path'];
+            var_dump($path);
+            if ($type != 'dir'){
+                if ($slave->has($path)){
+                    if ($slave->getSize($path) < $master->getSize($path)){
+                        $c = $master->readStream($path);
+                        $slave->updateStream($path, $c);
+                        var_dump("update");
+                    }elseif ($slave->getSize($path) == $master->getSize($path)){
+                        var_dump("has");
+                    }else{
+                        Tools::log($path, $log_name_pre.date("YMD"));
+                        var_dump("size error");
+                    }
+                }else{
+                    $c = $master->readStream($path);
+                    $slave->writeStream($path, $c);
+                    var_dump("write");
+                }
+            }
+        }
+    }
 }
