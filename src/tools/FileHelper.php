@@ -9,6 +9,8 @@
 namespace wodrow\yii2wtools\tools;
 
 
+use creocoder\flysystem\Filesystem;
+
 class FileHelper extends \yii\helpers\FileHelper
 {
     //$filePath是服务器的文件地址
