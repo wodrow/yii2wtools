@@ -9,6 +9,8 @@
 namespace wodrow\yii2wtools\tools;
 
 
+use yii\db\ActiveRecord;
+
 class Model
 {
     /**
@@ -22,5 +24,19 @@ class Model
         $firstError = array_shift($errors);
         if(!is_array($firstError)) return '';
         return array_shift($firstError);
+    }
+
+    /**
+     * 给模型键赋唯一值
+     * @param ActiveRecord $model
+     * @param string $k
+     * @param int $len
+     */
+    public static function setUniqueStrForModelKey(&$model, $k, $len = 32)
+    {
+        $model->$k = \Yii::$app->security->generateRandomString($len);
+        if ($model::findOne([$k => $model->$k])){
+            self::setUniqueStrForModelKey($model, $k, $len);
+        }
     }
 }

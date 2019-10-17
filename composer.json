@@ -9,7 +9,7 @@
     "require": {
         "php": ">=5.4",
         "yiisoft/yii2": "^2.0.6",
-        "creocoder/yii2-flysystem": "^0.9.3"
+        "creocoder/yii2-flysystem": "^0.9"
     },
     "authors": [
         {
