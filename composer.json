@@ -3,7 +3,8 @@
     "description": "tools and rewrite",
     "keywords": [
         "tools",
-        "helps"
+        "helps",
+        "rewrite"
     ],
     "type": "yii2-extension",
     "require": {
