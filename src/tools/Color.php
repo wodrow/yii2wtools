@@ -7,7 +7,7 @@ class Color
     /**
      * 颜色转十六进制
      * @param $colour
-     * @return array|bool
+     * @return array|bool|void
      */
     public static function hex2rgb($colour, $rout = 'colour')
     {

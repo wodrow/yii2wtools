@@ -7,13 +7,12 @@ use yii\validators\Validator;
 
 /**
  * Class Loop
- * @package common\components\validators
  * @desc 回环验证
  */
 class Loop extends Validator
 {
-    public $parent_for_attribute = 'id';
-    public $parent_model_linkname = 'p';
+    public $parentForAttribute = 'id';
+    public $parentModelLinkname = 'p';
 
     /**
      * @param ActiveRecord $model
@@ -21,7 +20,7 @@ class Loop extends Validator
      */
     public function validateAttribute($model, $attribute)
     {
-        $parent_for_attribute = $this->parent_for_attribute;
+        $parent_for_attribute = $this->parentForAttribute;
         $search = $model->$parent_for_attribute;
         if ($search == $model->$attribute){
             $bool = true;
@@ -45,8 +44,8 @@ class Loop extends Validator
      */
     protected function validateSearch($search, $parent)
     {
-        $parent_for_attribute = $this->parent_for_attribute;
-        $parent_model_linkname = $this->parent_model_linkname;
+        $parent_for_attribute = $this->parentForAttribute;
+        $parent_model_linkname = $this->parentModelLinkname;
         if ($parent){
             if ($parent->$parent_for_attribute == $search){
                 return true;

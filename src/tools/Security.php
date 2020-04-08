@@ -12,7 +12,7 @@ class Security
      * @return string
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
-    public static function think_encrypt($data, $key = '', $expire = 0) {
+    public static function thinkEncrypt($data, $key = '', $expire = 0) {
         $key  = md5(empty($key) ? 'wodrow' : $key);
         $data = base64_encode($data);
         $x    = 0;
@@ -37,7 +37,7 @@ class Security
      * @return string
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
-    public static function think_decrypt($data, $key = ''){
+    public static function thinkDecrypt($data, $key = ''){
         $key    = md5(empty($key) ? 'wodrow' : $key);
         $data   = str_replace(array('-','_'),array('+','/'),$data);
         $mod4   = strlen($data) % 4;
@@ -74,7 +74,7 @@ class Security
      * @return string       签名
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
-    public static function data_auth_sign($data) {
+    public static function dataAuthSign($data) {
         //数据类型检测
         if(!is_array($data)){
             $data = (array)$data;
@@ -116,8 +116,8 @@ class Security
 
     /**
      * RSA签名
-     * @param $data 待签名数据(按照文档说明拼成的字符串)
-     * @param $priKey商户私钥
+     * @param string $data 待签名数据(按照文档说明拼成的字符串)
+     * @param string $priKey商户私钥
      * return 签名结果
      */
     public static function rsaSign($data, $priKey)
@@ -132,8 +132,8 @@ class Security
     /**
      * RSA验签
      * @param mixed $data 待签名数据(如果是xml返回则数据为<plain>标签的值,包含<plain>标签，如果为form(key-value，一般指异步返回类的)返回,则需要按照文档中进行key的顺序进行，value拼接)
-     * @param $ali_public_key_path 富友的公钥文件路径
-     * @param $sign 要校对的的签名结果
+     * @param string $ali_public_key_path 富友的公钥文件路径
+     * @param string $sign 要校对的的签名结果
      * return 验证结果
      */
     public static function rsaVerify($data, $pubKey, $sign, $ali_public_key_path = null)
@@ -168,8 +168,8 @@ class Security
 
     /**
      * RSA解密
-     * @param $content 需要解密的内容，密文
-     * @param $private_key 商户私钥文件路径
+     * @param string $content 需要解密的内容，密文
+     * @param string $private_key 商户私钥文件路径
      * return 解密后内容，明文
      */
     public static function rsaDecrypt($content, $private_key) {
@@ -190,8 +190,8 @@ class Security
 
     /**
      * 验签  验证签名  基于sha1withRSA
-     * @param $data 签名前的原字符串
-     * @param $signature 签名串
+     * @param string $data 签名前的原字符串
+     * @param string $signature 签名串
      * @return bool
      * @link www.zh30.com
      */
@@ -199,7 +199,7 @@ class Security
     {
         $certs = array();
         openssl_pkcs12_read(file_get_contents("你的.pfx文件路径"), $certs, "password");
-        if (!$certs) return;
+        if (!$certs) return false;
         $result = (bool)openssl_verify($data, $signature, $certs['cert']); //openssl_verify验签成功返回1，失败0，错误返回-1
         return $result;
     }

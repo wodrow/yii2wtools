@@ -1,8 +1,7 @@
 <?php
 namespace wodrow\yii2wtools\components\timer;
 
-
-use common\components\tools\FileHelper;
+use wodrow\yii2wtools\tools\FileHelper;
 use yii\base\Component;
 use yii\log\Logger;
 

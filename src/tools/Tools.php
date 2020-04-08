@@ -9,6 +9,7 @@
 namespace wodrow\yii2wtools\tools;
 
 
+use yii\log\FileTarget;
 use yii\log\Logger;
 
 class Tools
@@ -42,10 +43,10 @@ class Tools
                 echo "</pre>";
                 break;
             case 2:
-                file_put_contents($outDir . '/OUT.md', "\r" . var_export($test, true));
+                file_put_contents($outDir . '/_vp.log', "\r" . var_export($test, true));
                 break;
             case 3:
-                file_put_contents($outDir . '/OUT.md', "\r\r" . var_export($test, true), FILE_APPEND);
+                file_put_contents($outDir . '/_vp.log', "\r\r" . var_export($test, true), FILE_APPEND);
                 break;
         }
         if ($stop != 0) {
@@ -53,15 +54,20 @@ class Tools
         }
     }
 
+    /**
+     * @param $msg
+     * @param string $log_name
+     * @throws
+     */
     public static function log($msg, $log_name = "app")
     {
-        $log = New \yii\log\FileTarget();
+        $log = New FileTarget();
         $log->logFile = \Yii::$app->getRuntimePath() . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR . "{$log_name}.log";
         $log->messages[] = [$msg, Logger::LEVEL_INFO, 'tool-log', time()];
         $log->export();
     }
 
-    public static function http_post($url, $param, $post_file = false)
+    public static function curlPost($url, $param, $post_file = false)
     {
         $oCurl = curl_init();
         if (stripos($url, "https://") !== FALSE) {
@@ -86,7 +92,6 @@ class Tools
         $aStatus = curl_getinfo($oCurl);
         curl_close($oCurl);
         if (intval($aStatus["http_code"]) == 200) {
-//			var_dump($aStatus);
             return $sContent;
         } else {
             return false;
@@ -145,7 +150,7 @@ class Tools
      *@returnreturn 大写汉字
      *小数位为两位
      */
-    public static function num_to_rmb($num){
+    public static function num2rmb($num){
         $c1 = "零壹贰叁肆伍陆柒捌玖";
         $c2 = "分角元拾佰仟万拾佰仟亿";
         //精确到分后面就不要了，所以只留两个小数位

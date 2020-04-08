@@ -2,13 +2,13 @@
 namespace wodrow\yii2wtools\components\jd_area;
 
 
-use common\members\wodrow\tools\Model;
+use GuzzleHttp\Client;
+use wodrow\yii2wtools\tools\Model;
 use yii\base\Component;
 use yii\base\StaticInstanceInterface;
 use yii\base\StaticInstanceTrait;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
-use yii\httpclient\Client;
 
 class JdArea extends Component implements StaticInstanceInterface
 {
@@ -21,8 +21,12 @@ class JdArea extends Component implements StaticInstanceInterface
     public function getArrByFid($fid = 0)
     {
         $client = new Client();
-        $resp = $client->get("http://d.jd.com/area/get", ['fid' => $fid])->send();
-        $o = json_decode($resp->content, true);
+        $resp = $client->request("GET", "http://d.jd.com/area/get", [
+            'query' => [
+                'fid' => $fid,
+            ]
+        ]);
+        $o = json_decode($resp->getBody()->getContents(), true);
         return $o;
     }
 

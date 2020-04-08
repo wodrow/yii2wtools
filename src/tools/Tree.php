@@ -2,8 +2,6 @@
 namespace wodrow\yii2wtools\tools;
 
 
-use common\components\tools\ArrayHelper;
-
 class Tree extends ArrayHelper
 {
     /**
@@ -118,7 +116,7 @@ class Tree extends ArrayHelper
             }
         }
         $i = $i-1;
-        for($i;$i>=$root;$i--){
+        for($i; $i>=$root; $i--){
             $root_to_node[] = $node_to_root[$i];
             $parent_list[] = $tree[$node_to_root[$i]];
         }

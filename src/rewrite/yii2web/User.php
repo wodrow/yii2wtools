@@ -5,8 +5,7 @@ use yii\web\IdentityInterface;
 
 /**
  * Class User
- * @package common\members\wodrow\rewrite\yii2web
- * @property \common\models\db\User $identity
+ * @property IdentityInterface $identity
  */
 class User extends \yii\web\User
 {

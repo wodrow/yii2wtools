@@ -47,10 +47,8 @@ class StrHelper
     }
 
     /**
-     *
      * ASCII 转 十六进制 以及 十六进制 转 ASCII
-     * 非盈利组织或个人请放心转载，商业用途请征得作者同意
-     *
+     * @desc 非盈利组织或个人请放心转载，商业用途请征得作者同意
      */
     //ASCII 转 十六进制
     public static function asc2hex($str)
@@ -58,7 +56,11 @@ class StrHelper
         return '\x' . substr(chunk_split(bin2hex($str), 2, '\x'), 0, -2);
     }
 
-    //十六进制 转 ASCII
+    /**
+     * 十六进制 转 ASCII
+     * @param $str
+     * @return string
+     */
     public static function hex2asc($str)
     {
         $data = '';
@@ -70,15 +72,12 @@ class StrHelper
 
     /**
      * 转换一个String字符串为byte数组(10进制)
-     * @param $str 需要转换的字符串
-     * @param $bytes 目标byte数组
+     * @param string $str 需要转换的字符串
+     * @param array $bytes 目标byte数组
      * @author Zikie
      */
-
-    public static function getBytes_10($str)
+    public static function getBytes10($str)
     {
-
-
         $len = strlen($str);
         $bytes = array();
         for ($i = 0; $i < $len; $i++) {
@@ -95,15 +94,12 @@ class StrHelper
 
     /**
      * 转换一个String字符串为byte数组(16进制)
-     * @param $str 需要转换的字符串
-     * @param $bytes 目标byte数组
+     * @param string $str 需要转换的字符串
+     * @param array $bytes 目标byte数组
      * @author Zikie
      */
-
-    public static function getBytes_16($str)
+    public static function getBytes16($str)
     {
-
-
         $len = strlen($str);
         $bytes = array();
         for ($i = 0; $i < $len; $i++) {
@@ -117,14 +113,12 @@ class StrHelper
         return $bytes;
     }
 
-
     /**
      * 转换一个String字符串为byte数组(2进制)
-     * @param $str 需要转换的字符串
-     * @param $bytes 目标byte数组
+     * @param string $str 需要转换的字符串
+     * @param array $bytes 目标byte数组
      * @author Zikie
      */
-
     public static function StrToBin($str)
     {
         //1.列出每个字符
@@ -135,53 +129,46 @@ class StrHelper
             $v = base_convert($temp[1], 16, 2);
             unset($temp);
         }
-
         return $arr;
     }
 
 
     /**
      * 转换一个byte数组为String(2进制)
-     * @param $str 需要转换的字符串
-     * @param $bytes 目标byte数组
+     * @param string $str 需要转换的字符串
+     * @param array $bytes 目标byte数组
      * @author Zikie
      */
-
     function BinToStr($str)
     {
         $arr = explode(' ', $str);
         foreach ($arr as &$v) {
             $v = pack("H" . strlen(base_convert($v, 2, 16)), base_convert($v, 2, 16));
         }
-
         return $v;
     }
 
     /**
      * 将字节数组转化为String类型的数据
-     * @param $bytes 字节数组
-     * @param $str 目标字符串
-     * @return 一个String类型的数据
+     * @param array $bytes 字节数组
+     * @param string $str 目标字符串
+     * @return string str 一个String类型的数据
      */
-
     public static function toStr($bytes)
     {
         $str = '';
         foreach ($bytes as $ch) {
             $str .= chr($ch);
         }
-
-
         return $str;
     }
 
     /**
      * 转换一个int为byte数组
-     * @param $byt 目标byte数组
-     * @param $val 需要转换的字符串
+     * @param array $byt 目标byte数组
+     * @param string $val 需要转换的字符串
      * @author Zikie
      */
-
     public static function integerToBytes($val)
     {
         $byt = array();
@@ -194,11 +181,10 @@ class StrHelper
 
     /**
      * 从字节数组中指定的位置读取一个Integer类型的数据
-     * @param $bytes 字节数组
-     * @param $position 指定的开始位置
-     * @return 一个Integer类型的数据
+     * @param array $bytes 字节数组
+     * @param int $position 指定的开始位置
+     * @return int val 一个Integer类型的数据
      */
-
     public static function bytesToInteger($bytes, $position)
     {
         $val = 0;
@@ -215,11 +201,10 @@ class StrHelper
 
     /**
      * 转换一个shor字符串为byte数组
-     * @param $byt 目标byte数组
-     * @param $val 需要转换的字符串
+     * @param array $byt 目标byte数组
+     * @param string $val 需要转换的字符串
      * @author Zikie
      */
-
     public static function shortToBytes($val)
     {
         $byt = array();
@@ -230,11 +215,10 @@ class StrHelper
 
     /**
      * 从字节数组中指定的位置读取一个Short类型的数据。
-     * @param $bytes 字节数组
-     * @param $position 指定的开始位置
-     * @return 一个Short类型的数据
+     * @param array $bytes 字节数组
+     * @param int $position 指定的开始位置
+     * @return int val 一个Short类型的数据
      */
-
     public static function bytesToShort($bytes, $position)
     {
         $val = 0;

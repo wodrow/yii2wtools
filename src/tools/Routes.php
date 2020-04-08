@@ -4,9 +4,13 @@
  * @author xinnianq 2017-10-11
  */
 namespace wodrow\yii2wtools\tools;
+
+
 use Yii;
-class Routes {
-	
+use yii\base\Action;
+
+class Routes
+{
     /**
      * Get list of application routes [获取应用的所有路由]
      * @return array
@@ -31,6 +35,7 @@ class Routes {
         // }
         return $result;
     }
+
     /**
      * 递归Get route(s)
      * @param \yii\base\Module $module
@@ -58,13 +63,13 @@ class Routes {
         }
         Yii::endProfile($token, __METHOD__);
     }
+
     /**
      * Get list controller under module
      * @param \yii\base\Module $module
      * @param string $namespace
      * @param string $prefix
      * @param mixed $result
-     * @return mixed
      */
     protected static function getControllerFiles($module, $namespace, $prefix, &$result)
     {
@@ -96,6 +101,7 @@ class Routes {
         }
         Yii::endProfile($token, __METHOD__);
     }
+
     /**
      * Get list action of controller 获取controller的action
      * @param mixed $type
@@ -118,6 +124,7 @@ class Routes {
         }
         Yii::endProfile($token, __METHOD__);
     }
+
     /**
      * Get route of action
      * @param \yii\base\Controller $controller
@@ -154,6 +161,7 @@ class Routes {
         }
         Yii::endProfile($token, __METHOD__);
     }
+
     /**
      * 获取控制器描述
      * Returns one-line short summary describing this controller.
@@ -162,11 +170,13 @@ class Routes {
      * The default implementation returns first line from the PHPDoc comment.
      *
      * @return string
+     * @throws
      */
     public static function getHelpSummary($controller)
     {
         return self::parseDocCommentSummary(new \ReflectionClass($controller));
     }
+
     //获取方法描述开始#############
     /**
      * Returns a one-line short summary describing the specified action.
@@ -177,9 +187,11 @@ class Routes {
     {
         return self::parseDocCommentSummary(self::getActionMethodReflection($controller,$action));
     }
+
     /**
      * @param Action $action
      * @return \ReflectionMethod
+     * @throws
      */
     protected static function getActionMethodReflection($controller,$action)
     {
@@ -193,6 +205,7 @@ class Routes {
         }
         return $_reflections[$action->id];
     }
+
     /**
      * Returns the first line of docblock.
      *
