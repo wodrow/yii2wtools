@@ -14,7 +14,7 @@ use yii\web\View;
 class JsBlock extends \yii\base\Widget
 {
     public $key;
-    public $pos = View::POS_READY;
+    public $pos = View::POS_END;
     public $viewFile;
     public $viewParams = [];
     /**
