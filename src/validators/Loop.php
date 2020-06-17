@@ -30,7 +30,7 @@ class Loop extends Validator
              */
             $class_name = get_class($model);
             $parent = $class_name::findOne([$parent_for_attribute => $model->$attribute]);
-            $bool = $this->validateSearch($search, $parent);
+            $bool = $this->validateSearch($search, $parent, $attribute);
         }
         if ($bool){
             $this->addError($model, $attribute, $attribute . '产生回环');
@@ -42,15 +42,14 @@ class Loop extends Validator
      * @param ActiveRecord $parent
      * @return bool
      */
-    protected function validateSearch($search, $parent)
+    protected function validateSearch($search, $parent, $attribute)
     {
-        $parent_for_attribute = $this->parentForAttribute;
         $parent_model_linkname = $this->parentModelLinkname;
         if ($parent){
-            if ($parent->$parent_for_attribute == $search){
+            if ($parent->$attribute == $search){
                 return true;
             }else{
-                return $this->validateSearch($search, $parent->$parent_model_linkname);
+                return $this->validateSearch($search, $parent->$parent_model_linkname, $attribute);
             }
         }else{
             return false;
