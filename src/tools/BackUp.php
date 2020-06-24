@@ -54,9 +54,10 @@ class BackUp
     /**
      * @param string $backupFileRoot
      * @param \yii\db\Connection $db
+     * @param string $params
      * @throws
      */
-    public static function dbBackup($backupFileRoot, $db)
+    public static function dbBackup($backupFileRoot, $db, $params = "")
     {
         $exec_str = "";
 //        $backupFileRoot = \Yii::getAlias("@uploads_root");
@@ -66,6 +67,9 @@ class BackUp
         switch ($_db_type){
             case "mysql":
                 $exec_str .= "mysqldump -u{$db->username} -p{$db->password} ";
+                if ($params){
+                    $exec_str .= "{$params} ";
+                }
                 $exec_str_end = "";
                 $_db_dsn_confs = ArrayHelper::str2arr($_a1[1], ";");
                 foreach ($_db_dsn_confs as $k => $v) {
