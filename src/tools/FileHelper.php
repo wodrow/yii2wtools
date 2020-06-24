@@ -280,10 +280,12 @@ class FileHelper extends \yii\helpers\FileHelper
             foreach ($file_dir as $file) {
                 if ($file == '.' || $file == '..') {
                     continue;
-                } elseif (is_dir($dir . $file)) {
-                    $result = array_merge($result, self::listDir($dir . $file . '/'));
                 } else {
-                    array_push($result, $dir . $file);
+                    $filePath = $dir . DIRECTORY_SEPARATOR . $file;
+                    array_push($result, $filePath);
+                    if (is_dir($filePath)){
+                        $result = array_merge($result, self::listDir($filePath));
+                    }
                 }
             }
         }
