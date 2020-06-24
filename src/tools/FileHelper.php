@@ -269,10 +269,11 @@ class FileHelper extends \yii\helpers\FileHelper
 
     /**
      * 获取文件列表
-     * @param $dir
+     * @param string $dir
+     * @param bool $recursive
      * @return array
      */
-    public static function listDir($dir)
+    public static function listDir($dir, $recursive = true)
     {
         $result = array();
         if (is_dir($dir)) {
@@ -283,8 +284,8 @@ class FileHelper extends \yii\helpers\FileHelper
                 } else {
                     $filePath = $dir . DIRECTORY_SEPARATOR . $file;
                     array_push($result, $filePath);
-                    if (is_dir($filePath)){
-                        $result = array_merge($result, self::listDir($filePath));
+                    if (is_dir($filePath) && $recursive){
+                        $result = array_merge($result, self::listDir($filePath, $recursive));
                     }
                 }
             }
