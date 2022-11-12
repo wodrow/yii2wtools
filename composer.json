@@ -10,7 +10,7 @@
     "type": "yii2-extension",
     "require": {
         "php": ">=7.1",
-        "yiisoft/yii2": "^2.0.28",
+        "yiisoft/yii2": "^2.0.6",
         "guzzlehttp/guzzle": "^6.4.1",
         "league/flysystem-sftp": "^1.0.22",
         "creocoder/yii2-flysystem": "^0.9.3"
