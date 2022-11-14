@@ -39,6 +39,7 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
      */
     public static function str2arr($str, $glue = ',')
     {
+        $str = trim($str, $glue);
         return explode($glue, $str);
     }
 
