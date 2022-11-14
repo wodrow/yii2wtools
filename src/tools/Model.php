@@ -9,9 +9,11 @@
 namespace wodrow\yii2wtools\tools;
 
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 
-class Model
+class Model extends \yii\base\Model
 {
     /**
      * 获取 Model 错误信息中的 第一条，无错误时 返回 null
